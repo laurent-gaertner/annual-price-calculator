@@ -1,7 +1,7 @@
 package calculators
 
 import utils.Constants.SupportedYear
-import exceptions.Exceptions.UnsupportedYearException
+import exceptions.Exceptions.{UnsupportedPeriodException, UnsupportedYearException}
 import org.specs2.mutable.SpecWithJUnit
 import org.specs2.specification.core.Fragments
 import java.time.DayOfWeek
@@ -23,11 +23,21 @@ class MultiplierCalculatorTest extends SpecWithJUnit {
     }
 
     "return 53 for Friday in 2021" >> {
-      MultiplierCalculator.calculateMultiplier(Some(DayOfWeek.FRIDAY), isMonthly = false, SupportedYear) must beEqualTo(53)
+      MultiplierCalculator.calculateMultiplier(maybeDayOfWeek = Some(DayOfWeek.FRIDAY), isMonthly = false, SupportedYear) must beEqualTo(53)
     }
+  }
+
+  "calculateMultiplier for dayOfMonth" should {
 
     "return 12 if it's monthly" >> {
-      MultiplierCalculator.calculateMultiplier(None, isMonthly = true, SupportedYear) must beEqualTo(12)
+      MultiplierCalculator.calculateMultiplier(maybeDayOfWeek = None, isMonthly = true, SupportedYear) must beEqualTo(12)
+    }
+  }
+
+  "calculateMultiplier for neither monthly nor weekly" should {
+
+    "throw UnsupportedPeriodException" >> {
+      MultiplierCalculator.calculateMultiplier(maybeDayOfWeek = None, isMonthly = false, 2021) must throwA[UnsupportedPeriodException]
     }
   }
 }

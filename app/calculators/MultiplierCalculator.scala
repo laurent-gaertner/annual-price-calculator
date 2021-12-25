@@ -1,7 +1,7 @@
 package calculators
 
 import utils.Constants.SupportedYear
-import exceptions.Exceptions.UnsupportedYearException
+import exceptions.Exceptions.{UnsupportedPeriodException, UnsupportedYearException}
 
 import java.time.DayOfWeek
 
@@ -17,7 +17,9 @@ object MultiplierCalculator {
   private def calculate2021Multiplier(maybeDayOfWeek: Option[DayOfWeek], isMonthly: Boolean): Int = {
     maybeDayOfWeek match {
       case Some(dayOfWeek) => getDayOfWeek2021Multiplier(dayOfWeek)
-      case _ if isMonthly => 12 //Because input is 1 to 27 Or last => response will always be 12
+      case None => if (isMonthly) {
+        12 //Because input is 1 to 27 Or last => response will always be 12
+      } else throw new UnsupportedPeriodException("Either weekly or monthly mode")
     }
   }
 
