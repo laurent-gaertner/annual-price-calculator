@@ -1,8 +1,9 @@
-package anchor
+package calculators
+
+import utils.Constants.{SupportedYear, ZERO}
+import exceptions.Exceptions.UnsupportedYearException
 
 import java.time.DayOfWeek
-import Constants.{SupportedYear, ZERO}
-import Exceptions.UnsupportedYearException
 
 object AnnualPriceCalculator {
 

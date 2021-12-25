@@ -1,7 +1,7 @@
-package anchor
+package calculators
 
-import Constants.SupportedYear
-import Exceptions.UnsupportedYearException
+import utils.Constants.SupportedYear
+import exceptions.Exceptions.UnsupportedYearException
 
 import java.time.DayOfWeek
 
@@ -25,6 +25,7 @@ object MultiplierCalculator {
    * In 2021 there were 53 Fridays, all other days of the week were present 52 times
    * https://calendarmaniacs.com/days-of-year/how-many-fridays-in-2021.html
    * No need to calculate that on every call as this is a constant value
+   *
    * @param dayOfWeek
    * @return
    */

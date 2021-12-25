@@ -1,9 +1,10 @@
-package anchor
+package converters
 
+import utils.Constants.SupportedYear
+import drivers.Drivers.{aMonthlyServiceData, aWeeklyServiceData}
+import converters.ServiceAnnualDataConverter._
 import org.specs2.mutable.SpecWithJUnit
-import ServiceAnnualDataConverter._
-import Drivers._
-import Constants.SupportedYear
+
 import java.time.DayOfWeek
 
 class ServiceAnnualDataConverterTest extends SpecWithJUnit {

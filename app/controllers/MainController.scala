@@ -1,12 +1,16 @@
 package controllers
 
-import anchor.{AnnualPriceCalculator, AnnualValueResult, ServiceAnnualDataConverter, ServiceData, ServiceDataValidator, ServicesData}
+import calculators.AnnualPriceCalculator
+import converters.ServiceAnnualDataConverter
+import domain.{AnnualValueResult, ServiceData, ServicesData}
+
 import javax.inject._
 import play.api.libs.json._
 import play.api.mvc._
+import validators.ServiceDataValidator
 
 @Singleton
-class HomeController @Inject()(val controllerComponents: ControllerComponents) extends BaseController {
+class MainController @Inject()(val controllerComponents: ControllerComponents) extends BaseController {
 
   implicit val serviceDataJson = Json.format[ServiceData]
   implicit val servicesDataJson = Json.format[ServicesData]

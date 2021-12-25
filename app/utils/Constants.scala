@@ -1,4 +1,4 @@
-package anchor
+package utils
 
 object Constants {
 
@@ -9,6 +9,6 @@ object Constants {
 
   val Last = "last"
 
-  val Periods = Seq(Weekly,Monthly)
+  val Periods = Seq(Weekly, Monthly)
 
 }

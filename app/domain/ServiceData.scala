@@ -1,6 +1,7 @@
-package anchor
+package domain
 
-import Constants._
+import utils.Constants.{Monthly, Weekly}
+
 import java.time.DayOfWeek
 
 case class ServiceData(name: String,

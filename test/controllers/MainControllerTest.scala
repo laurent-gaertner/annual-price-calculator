@@ -1,18 +1,17 @@
 package controllers
 
-import anchor.{AnnualValueResult, ServiceData, ServicesData}
 import org.scalatestplus.play._
 import org.scalatestplus.play.guice._
 import play.api.libs.json.Json
 import play.api.test._
 import play.api.test.Helpers._
-import anchor.Drivers._
-import anchor.Constants.ZERO
+import drivers.Drivers._
+import utils.Constants.ZERO
+import domain.{AnnualValueResult, ServiceData, ServicesData}
 import play.api.mvc.Result
-
 import scala.concurrent.Future
 
-class HomeControllerSpec extends PlaySpec with GuiceOneAppPerTest with Injecting {
+class MainControllerTest extends PlaySpec with GuiceOneAppPerTest with Injecting {
 
   implicit val serviceDataJson = Json.format[ServiceData]
   implicit val servicesDataJson = Json.format[ServicesData]
@@ -26,7 +25,7 @@ class HomeControllerSpec extends PlaySpec with GuiceOneAppPerTest with Injecting
   "annual-value" should {
 
     "render annual-value from the application" in {
-      val controller = inject[HomeController]
+      val controller = inject[MainController]
       val body = Json.toJson(ServicesData(Seq(aWeeklyServiceData(price = 100))))
       val request = FakeRequest(method = GET, path = "/annual-value").withJsonBody(body)
       val annualValue = controller.annualValue().apply(request)

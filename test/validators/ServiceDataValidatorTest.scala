@@ -1,8 +1,8 @@
-package anchor
+package validators
 
+import drivers.Drivers.{aMonthlyServiceData, aWeeklyServiceData}
+import exceptions.Exceptions.InvalidServiceDataException
 import org.specs2.mutable.SpecWithJUnit
-import Drivers._
-import Exceptions.InvalidServiceDataException
 
 class ServiceDataValidatorTest extends SpecWithJUnit {
 

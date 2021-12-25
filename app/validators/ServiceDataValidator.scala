@@ -1,8 +1,10 @@
-package anchor
+package validators
 
-import Constants._
-import anchor.Exceptions.InvalidServiceDataException
-import scala.util.{Try,Success,Failure}
+import utils.Constants.Last
+import domain.ServiceData
+import exceptions.Exceptions.InvalidServiceDataException
+
+import scala.util.{Failure, Success, Try}
 
 //TODO: Split to Weekly and Monthly Validator
 object ServiceDataValidator {
@@ -37,7 +39,7 @@ object ServiceDataValidator {
     try {
       serviceData.resolveDayOfWeek.get
     } catch {
-      case _:Exception => //catches exception of resolveDayOfWeek and `get`
+      case _: Exception => //catches exception of resolveDayOfWeek and `get`
         throw InvalidServiceDataException(s"Invalid DayOfWeek Value for service ${serviceData.name}")
     }
   }
@@ -63,7 +65,7 @@ object ServiceDataValidator {
     maybeDayOfMonth match {
       case None => throw InvalidServiceDataException(s"DayOfMonth is not provided for service $serviceName")
       case Some(dayOfMonth) => {
-        if (!dayOfMonth.equalsIgnoreCase(Last))//if dayOfMonth == 'last' -> valid
+        if (!dayOfMonth.equalsIgnoreCase(Last)) //if dayOfMonth == 'last' -> valid
           dayOfMonthValidationNumber(dayOfMonth, serviceName)
       }
     }
@@ -85,5 +87,3 @@ object ServiceDataValidator {
   }
 
 }
-
-

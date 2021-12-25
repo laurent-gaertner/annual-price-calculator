@@ -1,7 +1,7 @@
-package anchor
+package calculators
 
-import Constants.SupportedYear
-import Exceptions.UnsupportedYearException
+import utils.Constants.SupportedYear
+import exceptions.Exceptions.UnsupportedYearException
 import org.specs2.mutable.SpecWithJUnit
 import org.specs2.specification.core.Fragments
 import java.time.DayOfWeek

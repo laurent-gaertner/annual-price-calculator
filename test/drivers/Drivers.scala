@@ -1,6 +1,9 @@
-package anchor
+package drivers
 
-import Constants._
+import calculators.ServiceAnnualData
+import domain.ServiceData
+import utils.Constants.{Monthly, SupportedYear, Weekly}
+
 import java.time.DayOfWeek
 
 object Drivers {
@@ -24,18 +27,18 @@ object Drivers {
 
   def aMonthlyServiceData(price: Int = 1234): ServiceData = {
     ServiceData(name = "abcde",
-                period = Monthly,
-                dayOfWeek = None,
-                dayOfMonth = Some("27"),
-                price = price)
+      period = Monthly,
+      dayOfWeek = None,
+      dayOfMonth = Some("27"),
+      price = price)
   }
 
   def aWeeklyServiceData(dayOfWeek: String = "Monday", price: Int = 1234): ServiceData = {
     ServiceData(name = "abcde",
-                period = Weekly,
-                dayOfWeek = Some(dayOfWeek),
-                dayOfMonth = None,
-                price = price)
+      period = Weekly,
+      dayOfWeek = Some(dayOfWeek),
+      dayOfMonth = None,
+      price = price)
   }
 
 }
