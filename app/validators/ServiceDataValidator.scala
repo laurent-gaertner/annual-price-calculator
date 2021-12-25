@@ -1,7 +1,7 @@
 package validators
 
 import utils.Constants.Last
-import domain.ServiceData
+import domain.{DayOfMonth, DayOfMonthInt, DayOfMonthString, ServiceData}
 import exceptions.Exceptions.InvalidServiceDataException
 
 import scala.util.{Failure, Success, Try}
@@ -61,24 +61,22 @@ object ServiceDataValidator {
     }
   }
 
-  private def validateDayOfMonth(maybeDayOfMonth: Option[String], serviceName: String): Unit = {
+  private def validateDayOfMonth(maybeDayOfMonth: Option[DayOfMonth], serviceName: String): Unit = {
     maybeDayOfMonth match {
       case None => throw InvalidServiceDataException(s"DayOfMonth is not provided for service $serviceName")
       case Some(dayOfMonth) => {
-        if (!dayOfMonth.equalsIgnoreCase(Last)) //if dayOfMonth == 'last' -> valid
-          dayOfMonthValidationNumber(dayOfMonth, serviceName)
+        dayOfMonth match {
+          case DayOfMonthString(value) =>
+            if (!value.equalsIgnoreCase(Last)) throw InvalidServiceDataException(s"DayOfMonth not valid for service $serviceName")
+          case DayOfMonthInt(dayOfMonthInt) => dayOfMonthValidationNumber(dayOfMonthInt, serviceName)
+        }
       }
     }
   }
 
-  private def dayOfMonthValidationNumber(dayOfMonth: String, serviceName: String): Unit = {
-    try {
-      val dayOfMonthInt = dayOfMonth.toInt
-      if (dayOfMonthInt < 1 || dayOfMonthInt > 27)
+  private def dayOfMonthValidationNumber(dayOfMonth: Int, serviceName: String): Unit = {
+      if (dayOfMonth < 1 || dayOfMonth > 27)
         throw InvalidServiceDataException(s"DayOfMonth not in valid range for service $serviceName")
-    } catch {
-      case _: NumberFormatException => throw InvalidServiceDataException(s"DayOfMonth not a valid number for service $serviceName")
-    }
   }
 
   private def validatePrice(price: Int, serviceName: String): Unit = {

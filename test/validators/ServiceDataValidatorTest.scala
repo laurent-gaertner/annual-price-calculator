@@ -1,5 +1,6 @@
 package validators
 
+import domain.{DayOfMonthInt, DayOfMonthString}
 import drivers.Drivers.{aMonthlyServiceData, aWeeklyServiceData}
 import exceptions.Exceptions.InvalidServiceDataException
 import org.specs2.mutable.SpecWithJUnit
@@ -40,7 +41,7 @@ class ServiceDataValidatorTest extends SpecWithJUnit {
     }
 
     "not have a value for DayOfMonth" >> {
-      val emptyPeriod = aWeeklyServiceData().copy(dayOfMonth = Some("1"))
+      val emptyPeriod = aWeeklyServiceData().copy(dayOfMonth = Some(DayOfMonthInt(1)))
       ServiceDataValidator.validate(emptyPeriod) must throwA[InvalidServiceDataException]
     }
 
@@ -59,17 +60,17 @@ class ServiceDataValidatorTest extends SpecWithJUnit {
     }
 
     "not have invalid dayOfMonth" >> {
-      val monthlyServiceData = aMonthlyServiceData().copy(dayOfMonth = Some("first"))
+      val monthlyServiceData = aMonthlyServiceData().copy(dayOfMonth = Some(DayOfMonthString("first")))
       ServiceDataValidator.validate(monthlyServiceData) must throwA[InvalidServiceDataException]
     }
 
     "not have lower range for dayOfMonth" >> {
-      val monthlyServiceData = aMonthlyServiceData().copy(dayOfMonth = Some("0"))
+      val monthlyServiceData = aMonthlyServiceData().copy(dayOfMonth = Some(DayOfMonthInt(0)))
       ServiceDataValidator.validate(monthlyServiceData) must throwA[InvalidServiceDataException]
     }
 
     "not have higher range for dayOfMonth" >> {
-      val monthlyServiceData = aMonthlyServiceData().copy(dayOfMonth = Some("28"))
+      val monthlyServiceData = aMonthlyServiceData().copy(dayOfMonth = Some(DayOfMonthInt(28)))
       ServiceDataValidator.validate(monthlyServiceData) must throwA[InvalidServiceDataException]
     }
 

@@ -1,7 +1,7 @@
 package drivers
 
 import calculators.ServiceAnnualData
-import domain.ServiceData
+import domain.{DayOfMonth, DayOfMonthInt, ServiceData}
 import utils.Constants.{Monthly, SupportedYear, Weekly}
 
 import java.time.DayOfWeek
@@ -25,11 +25,12 @@ object Drivers {
       year = year)
   }
 
-  def aMonthlyServiceData(price: Int = 1234): ServiceData = {
+  def aMonthlyServiceData(price: Int = 1234,
+                          dayOfMonth: Option[DayOfMonth] = Some(DayOfMonthInt(27))): ServiceData = {
     ServiceData(name = "abcde",
       period = Monthly,
       dayOfWeek = None,
-      dayOfMonth = Some("27"),
+      dayOfMonth = dayOfMonth,
       price = price)
   }
 
