@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/annual-price-calculator -Dhttp.port=${PORT}
+web: target/universal/stage/bin/annualcalculator -Dhttp.port=${PORT}
