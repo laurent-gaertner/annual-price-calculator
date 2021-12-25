@@ -6,7 +6,7 @@ import Exceptions.InvalidServiceDataException
 
 class ServiceDataValidatorTest extends SpecWithJUnit {
 
-  "Period ServiceData validation" should {
+  "General ServiceData validation" should {
     "not have an empty period" >> {
       val emptyPeriod = aWeeklyServiceData().copy(period = null)
       ServiceDataValidator.validate(emptyPeriod) must throwA[InvalidServiceDataException]
@@ -15,6 +15,11 @@ class ServiceDataValidatorTest extends SpecWithJUnit {
     "not have an invalid period" >> {
       val emptyPeriod = aWeeklyServiceData().copy(period = "Yearly")
       ServiceDataValidator.validate(emptyPeriod) must throwA[InvalidServiceDataException]
+    }
+
+    "not have a negative price" >> {
+      val negativePrice = aWeeklyServiceData().copy(price = -10)
+      ServiceDataValidator.validate(negativePrice) must throwA[InvalidServiceDataException]
     }
   }
 

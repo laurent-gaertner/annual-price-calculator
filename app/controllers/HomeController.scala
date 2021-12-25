@@ -1,7 +1,6 @@
 package controllers
 
 import anchor.{AnnualPriceCalculator, AnnualValueResult, ServiceAnnualDataConverter, ServiceData, ServiceDataValidator, ServicesData}
-
 import javax.inject._
 import play.api.libs.json._
 import play.api.mvc._
@@ -13,7 +12,6 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
   implicit val servicesDataJson = Json.format[ServicesData]
   implicit val annualValueResultJson = Json.format[AnnualValueResult]
 
-  // curl -v -d '{"services": ...}' -H 'Content-Type: application/json' -X POST localhost:9000/annual-value
   def annualValue() = Action {
     implicit request =>
     val content = request.body
@@ -25,12 +23,8 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
       case Some(servicesData) if ServiceDataValidator.isValid(servicesData.services) =>
 
         val servicesAnnualData = servicesData.services.map(ServiceAnnualDataConverter.toServiceAnnualData)
-        try {
-          val annualValueResult = AnnualPriceCalculator.calculateAnnualValue(servicesAnnualData)
-          Ok(Json.toJson(AnnualValueResult(annualValueResult)))
-        } catch {
-          case _:Exception => BadRequest
-        }
+        val annualValueResult = AnnualPriceCalculator.calculateAnnualValue(servicesAnnualData)
+        Ok(Json.toJson(AnnualValueResult(annualValueResult)))
       case _ =>
         BadRequest
     }

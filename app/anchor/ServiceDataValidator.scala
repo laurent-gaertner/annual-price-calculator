@@ -2,16 +2,15 @@ package anchor
 
 import Constants._
 import anchor.Exceptions.InvalidServiceDataException
+import scala.util.{Try,Success,Failure}
 
 //TODO: Split to Weekly and Monthly Validator
 object ServiceDataValidator {
 
   def isValid(services: Seq[ServiceData]): Boolean = {
-    try {
-      services.foreach(ServiceDataValidator.validate)
-      true
-    } catch {
-      case _: InvalidServiceDataException => false
+    Try(services.foreach(ServiceDataValidator.validate)) match {
+      case Success(_) => true
+      case Failure(_) => false
     }
   }
 
@@ -19,6 +18,7 @@ object ServiceDataValidator {
     validatePeriod(serviceData)
     validateWeekly(serviceData)
     validateMonthly(serviceData)
+    validatePrice(serviceData.price, serviceData.name)
   }
 
   private def validatePeriod(serviceData: ServiceData): Unit = {
@@ -47,24 +47,24 @@ object ServiceDataValidator {
       throw InvalidServiceDataException(s"DayOfMonth should not be provided for service ${serviceData.name}")
   }
 
-  private def validateDayOfWeekIsEmpty(serviceData: ServiceData): Unit = {
-    if (serviceData.dayOfWeek.isDefined)
-      throw InvalidServiceDataException(s"DayOfWeek should not be provided for service ${serviceData.name}")
+  private def validateDayOfWeekIsEmpty(dayOfWeek: Option[String], serviceName: String): Unit = {
+    if (dayOfWeek.isDefined)
+      throw InvalidServiceDataException(s"DayOfWeek should not be provided for service $serviceName")
   }
 
   private def validateMonthly(serviceData: ServiceData): Unit = {
     if (serviceData.isMonthly) {
-      validateDayOfMonth(serviceData)
-      validateDayOfWeekIsEmpty(serviceData)
+      validateDayOfMonth(serviceData.dayOfMonth, serviceData.name)
+      validateDayOfWeekIsEmpty(serviceData.dayOfWeek, serviceData.name)
     }
   }
 
-  private def validateDayOfMonth(serviceData: ServiceData): Unit = {
-    serviceData.dayOfMonth match {
-      case None => throw InvalidServiceDataException(s"DayOfMonth is not provided for service ${serviceData.name}")
+  private def validateDayOfMonth(maybeDayOfMonth: Option[String], serviceName: String): Unit = {
+    maybeDayOfMonth match {
+      case None => throw InvalidServiceDataException(s"DayOfMonth is not provided for service $serviceName")
       case Some(dayOfMonth) => {
         if (!dayOfMonth.equalsIgnoreCase(Last))//if dayOfMonth == 'last' -> valid
-          dayOfMonthValidationNumber(dayOfMonth, serviceData.name)
+          dayOfMonthValidationNumber(dayOfMonth, serviceName)
       }
     }
   }
@@ -77,6 +77,11 @@ object ServiceDataValidator {
     } catch {
       case _: NumberFormatException => throw InvalidServiceDataException(s"DayOfMonth not a valid number for service $serviceName")
     }
+  }
+
+  private def validatePrice(price: Int, serviceName: String): Unit = {
+    if (price < 0)
+      throw InvalidServiceDataException(s"Price is negative for service $serviceName")
   }
 
 }

@@ -2,7 +2,7 @@ package anchor
 
 import Drivers._
 import Constants._
-import Exceptions.{NegativePriceException, UnsupportedYearException}
+import Exceptions.UnsupportedYearException
 import org.specs2.mutable.SpecWithJUnit
 
 class AnnualPriceCalculatorTest extends SpecWithJUnit {
@@ -13,12 +13,6 @@ class AnnualPriceCalculatorTest extends SpecWithJUnit {
       val serviceAnnualData = aDayOfWeekServiceAnnualData(year = 2022)
 
       AnnualPriceCalculator.calculateAnnualValueForService(serviceAnnualData) must throwA[UnsupportedYearException]
-    }
-
-    "throw Exception if price is negative" >> {
-      val serviceAnnualData = aDayOfWeekServiceAnnualData(price = BigDecimal(-5))
-
-      AnnualPriceCalculator.calculateAnnualValueForService(serviceAnnualData) must throwA[NegativePriceException]
     }
 
     "return zero if price is zero" >> {

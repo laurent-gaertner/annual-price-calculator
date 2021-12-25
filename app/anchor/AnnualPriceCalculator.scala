@@ -2,7 +2,7 @@ package anchor
 
 import java.time.DayOfWeek
 import Constants.{SupportedYear, ZERO}
-import Exceptions.{NegativePriceException, UnsupportedYearException}
+import Exceptions.UnsupportedYearException
 
 object AnnualPriceCalculator {
 
@@ -22,15 +22,15 @@ object AnnualPriceCalculator {
 
   private def calculateAnnualValue(serviceAnnualData: ServiceAnnualData): BigDecimal = {
     import serviceAnnualData._
-    price.compare(ZERO) match {
-      case 0 => ZERO
-      case -1 => throw NegativePriceException("Price can't be negative")
-      case _ => {
-        val multiplier = MultiplierCalculator.calculateMultiplier(maybeDayOfWeek, isMonthly, year)
-        price * multiplier
-      }
+
+    if (price.equals(ZERO))
+      ZERO
+    else {
+      val multiplier = MultiplierCalculator.calculateMultiplier(maybeDayOfWeek, isMonthly, year)
+      price * multiplier
     }
   }
+
 }
 
 case class ServiceAnnualData(price:BigDecimal,//in cents
