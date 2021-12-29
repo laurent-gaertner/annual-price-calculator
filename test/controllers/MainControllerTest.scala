@@ -2,27 +2,18 @@ package controllers
 
 import org.scalatestplus.play._
 import org.scalatestplus.play.guice._
-import play.api.libs.json.{JsNumber, JsResult, JsString, JsSuccess, JsValue, Json, Reads, Writes}
-import play.api.test._
-import play.api.test.Helpers._
+import play.api.libs.json.{JsNumber, JsString, Json, Writes}
 import drivers.Drivers._
-import utils.Constants.ZERO
 import domain.{AnnualValueResult, DayOfMonth, DayOfMonthInt, DayOfMonthString, ServiceData, ServicesData}
 import play.api.mvc.Result
+import play.api.test.Helpers._
+import play.api.test._
+import utils.Constants.{ZERO, _}
 import scala.concurrent.Future
 import utils.Constants._
+import JsonHelper.{DataValueReads, annualValueResultJson}
 
 class MainControllerTest extends PlaySpec with GuiceOneAppPerTest with Injecting {
-
-  implicit object DataValueReads extends Reads[DayOfMonth] {
-    override def reads(json: JsValue): JsResult[DayOfMonth] = {
-      json match {
-        case JsString(dayOfMonth) => JsSuccess(DayOfMonthString(dayOfMonth))
-        case JsNumber(s) => JsSuccess(DayOfMonthInt(s.toInt))
-        case _ => throw new Exception("Invalid json value")
-      }
-    }
-  }
 
   implicit val dayOfMonthJsonWrites = new Writes[DayOfMonth] {
     def writes(dayOfMonth: DayOfMonth) = {
@@ -35,7 +26,6 @@ class MainControllerTest extends PlaySpec with GuiceOneAppPerTest with Injecting
 
   implicit val serviceDataJson = Json.format[ServiceData]
   implicit val servicesDataJson = Json.format[ServicesData]
-  implicit val annualValueResultJson = Json.format[AnnualValueResult]
 
   def annualValueCheck(result: Future[Result], expectedAnnualValue: BigDecimal): Unit = {
     val resAsJson = Json.parse(contentAsString(result))
@@ -78,16 +68,18 @@ class MainControllerTest extends PlaySpec with GuiceOneAppPerTest with Injecting
       val body = Json.toJson(ServicesData(services = Seq(aWeeklyServiceData(price = 100),
                                                          aMonthlyServiceData(price = 5).copy(dayOfWeek = Some("monday")))))
       val request = FakeRequest(method = GET, path = "/annual-value").withJsonBody(body)
-      val annualValue = route(app, request).get
+      val response = route(app, request).get
 
-      status(annualValue) mustBe BAD_REQUEST
+      status(response) mustBe BAD_REQUEST
+      contentAsString(response) mustBe "DayOfWeek should not be provided for service abcde"
     }
 
     "return Bad Request - no data" in {
       val request = FakeRequest(method = GET, path = "/annual-value")
-      val annualValue = route(app, request).get
+      val response = route(app, request).get
 
-      status(annualValue) mustBe BAD_REQUEST
+      status(response) mustBe BAD_REQUEST
+      contentAsString(response) mustBe "no data"
     }
   }
 }

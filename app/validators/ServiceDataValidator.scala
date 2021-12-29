@@ -4,17 +4,7 @@ import utils.Constants.Last
 import domain.{DayOfMonth, DayOfMonthInt, DayOfMonthString, ServiceData}
 import exceptions.Exceptions.InvalidServiceDataException
 
-import scala.util.{Failure, Success, Try}
-
-//TODO: Split to Weekly and Monthly Validator
 object ServiceDataValidator {
-
-  def isValid(services: Seq[ServiceData]): Boolean = {
-    Try(services.foreach(ServiceDataValidator.validate)) match {
-      case Success(_) => true
-      case Failure(_) => false
-    }
-  }
 
   def validate(serviceData: ServiceData): Unit = {
     validatePeriod(serviceData)
