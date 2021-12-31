@@ -4,28 +4,29 @@ import calculators.AnnualPriceCalculator
 import converters.ServiceAnnualDataConverter
 import domain.{AnnualValueResult, ServiceData, ServicesData}
 import exceptions.Exceptions.InvalidServiceDataException
-
 import javax.inject._
 import play.api.libs.json._
 import play.api.mvc._
 import validators.ServiceDataValidator
 import JsonHelper._
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class MainController @Inject()(val controllerComponents: ControllerComponents) extends BaseController {
+class MainController @Inject()(val controllerComponents: ControllerComponents)
+                              (implicit ec: ExecutionContext) extends BaseController {
 
-  def annualValue() = Action {
+  def annualValue() = Action.async {
     implicit request =>
     val content = request.body
     val jsonObject = content.asJson
 
    jsonObject.flatMap(Json.fromJson[ServicesData](_).asOpt) match {
-     case None => BadRequest("no data")
-     case Some(servicesData) => try {
+     case None => Future(BadRequest("no data"))
+     case Some(servicesData) => Future(try {
        calculateAnnualValue(servicesData.services)
        } catch {
          case exc: InvalidServiceDataException => BadRequest(exc.message)
-       }
+       })
      }
   }
 

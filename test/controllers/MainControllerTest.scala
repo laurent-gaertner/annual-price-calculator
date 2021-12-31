@@ -68,7 +68,7 @@ class MainControllerTest extends PlaySpec with GuiceOneAppPerTest with Injecting
       val body = Json.toJson(ServicesData(services = Seq(aWeeklyServiceData(price = 100),
                                                          aMonthlyServiceData(price = 5).copy(dayOfWeek = Some("monday")))))
       val request = FakeRequest(method = GET, path = "/annual-value").withJsonBody(body)
-      val response = route(app, request).get
+      val response: Future[Result] = route(app, request).get
 
       status(response) mustBe BAD_REQUEST
       contentAsString(response) mustBe "DayOfWeek should not be provided for service abcde"
