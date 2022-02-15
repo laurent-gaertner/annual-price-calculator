@@ -5,6 +5,7 @@ import drivers.Drivers.{aMonthlyServiceData, aWeeklyServiceData}
 import exceptions.Exceptions.InvalidServiceDataException
 import org.specs2.mutable.SpecWithJUnit
 
+
 class ServiceDataValidatorTest extends SpecWithJUnit {
 
   "General ServiceData validation" should {

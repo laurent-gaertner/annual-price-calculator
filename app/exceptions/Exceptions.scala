@@ -1,5 +1,6 @@
 package exceptions
 
+
 object Exceptions {
 
   case class UnsupportedYearException(message: String) extends RuntimeException(message)

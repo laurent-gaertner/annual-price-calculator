@@ -3,6 +3,7 @@ package controllers
 import domain.{AnnualValueResult, DayOfMonth, DayOfMonthInt, DayOfMonthString, ServiceData, ServicesData}
 import play.api.libs.json.{JsNumber, JsResult, JsString, JsSuccess, JsValue, Json, Reads}
 
+
 object JsonHelper {
 
   implicit object DataValueReads extends Reads[DayOfMonth] {

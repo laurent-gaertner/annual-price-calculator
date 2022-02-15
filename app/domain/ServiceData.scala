@@ -1,5 +1,6 @@
 package domain
 
+
 import utils.Constants.{Monthly, Weekly}
 import java.time.DayOfWeek
 

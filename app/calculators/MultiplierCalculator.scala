@@ -5,6 +5,7 @@ import exceptions.Exceptions.{UnsupportedPeriodException, UnsupportedYearExcepti
 
 import java.time.DayOfWeek
 
+
 object MultiplierCalculator {
 
   def calculateMultiplier(maybeDayOfWeek: Option[DayOfWeek], isMonthly: Boolean, year: Int): Int = {

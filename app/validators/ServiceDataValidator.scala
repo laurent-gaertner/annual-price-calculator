@@ -4,6 +4,7 @@ import utils.Constants.Last
 import domain.{DayOfMonth, DayOfMonthInt, DayOfMonthString, ServiceData}
 import exceptions.Exceptions.InvalidServiceDataException
 
+
 object ServiceDataValidator {
 
   def validate(serviceData: ServiceData): Unit = {

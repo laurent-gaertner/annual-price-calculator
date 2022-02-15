@@ -11,6 +11,7 @@ import validators.ServiceDataValidator
 import JsonHelper._
 import scala.concurrent.{ExecutionContext, Future}
 
+
 @Singleton
 class MainController @Inject()(val controllerComponents: ControllerComponents)
                               (implicit ec: ExecutionContext) extends BaseController {

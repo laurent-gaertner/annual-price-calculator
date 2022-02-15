@@ -6,6 +6,7 @@ import org.specs2.mutable.SpecWithJUnit
 import org.specs2.specification.core.Fragments
 import java.time.DayOfWeek
 
+
 class MultiplierCalculatorTest extends SpecWithJUnit {
 
   "calculateMultiplier for dayOfWeek" should {

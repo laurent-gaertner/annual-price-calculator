@@ -4,6 +4,7 @@ import utils.Constants.{Monthly, SupportedYear}
 import calculators.ServiceAnnualData
 import domain.ServiceData
 
+
 object ServiceAnnualDataConverter {
 
   def toServiceAnnualData(serviceData: ServiceData): ServiceAnnualData = {

@@ -13,6 +13,7 @@ import scala.concurrent.Future
 import utils.Constants._
 import JsonHelper.{DataValueReads, annualValueResultJson}
 
+
 class MainControllerTest extends PlaySpec with GuiceOneAppPerTest with Injecting {
 
   implicit val dayOfMonthJsonWrites = new Writes[DayOfMonth] {

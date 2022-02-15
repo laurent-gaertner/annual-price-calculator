@@ -1,5 +1,6 @@
 package utils
 
+
 object Constants {
 
   val ZERO = BigDecimal(0)

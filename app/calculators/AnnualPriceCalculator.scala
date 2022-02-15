@@ -5,6 +5,7 @@ import exceptions.Exceptions.UnsupportedYearException
 
 import java.time.DayOfWeek
 
+
 object AnnualPriceCalculator {
 
   def calculateAnnualValue(servicesAnnualData: Seq[ServiceAnnualData]): BigDecimal = {

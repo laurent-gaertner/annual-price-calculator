@@ -5,6 +5,7 @@ import drivers.Drivers.{aDayOfMonthServiceAnnualData, aDayOfWeekServiceAnnualDat
 import exceptions.Exceptions.UnsupportedYearException
 import org.specs2.mutable.SpecWithJUnit
 
+
 class AnnualPriceCalculatorTest extends SpecWithJUnit {
 
   "AnnualPriceCalculator::calculateAnnualValueForService" should {
